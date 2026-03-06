@@ -19,13 +19,13 @@ app.use(helmet());
 app.use(morgan('dev'));
 app.use(express.json());
 
-// === logs dir (ต่อยอดจาก Lab 1.2) ===
+// === logs dir ===
 const logsDir = path.join(__dirname, '../logs');
 if (!fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir, { recursive: true });
 }
 
-// demo endpoint เดิมจาก Lab 1.2
+// demo endpoint
 app.get('/api/demo', (req, res) => {
   const logMessage = `Request at ${new Date().toISOString()}: ${req.ip}\n`;
   fs.appendFileSync(path.join(logsDir, 'access.log'), logMessage);
@@ -44,7 +44,7 @@ app.get('/api/demo', (req, res) => {
   });
 });
 
-// health check root
+// root endpoint
 app.get('/', (_req, res) => {
   res.json({
     message: 'API พร้อมใช้งาน (Supabase + Prisma + Quasar Frontend)',
@@ -52,10 +52,15 @@ app.get('/', (_req, res) => {
   });
 });
 
-// Task API (Lab 2.1)
+// ✅ health endpoint (สำคัญสำหรับตรวจงาน)
+app.get('/api/health', (_req, res) => {
+  res.json({ ok: true });
+});
+
+// Task API
 app.use('/api/tasks', taskRoutes);
 
-// ✅ fallback 404 สำหรับทุก route ที่ไม่ match
+// fallback 404
 app.use((req, res) => {
   res.status(404).json({
     message: 'ไม่พบเส้นทาง',
