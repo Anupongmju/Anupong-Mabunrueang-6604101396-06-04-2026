@@ -10,7 +10,7 @@
     "tasks": "https://anupong-mabunrueang-6604101396-06-04-2026.onrender.com/api/tasks"
   },
   "frontend": {
-    "url": "https://project-full-satck-anupong.netlify.app"
+    "url": "https://nupong-project-full.netlify.app"
   },
   "database": {
     "provider": "Supabase",
